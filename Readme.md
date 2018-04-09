@@ -4,7 +4,7 @@
 
 ## Install
 ```
-composer require netinternet/parasut
+composer require netinternet/parasut-v4
 ```
 
 ## Usage
