@@ -20,5 +20,6 @@
         "php": ">=5.5.9",
         "ext-curl": "*",
         "netinternet/parasut-v4": "dev-master"
-    }
+    },
+    "version": "1.0.0"
 }
