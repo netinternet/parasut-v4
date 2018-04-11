@@ -91,7 +91,7 @@ Class Invoice extends Base
     public function pdf_e_archive($id)
     {
         return $this->client->request(
-            "e_archive/$id/pdf",
+            "e_archives/$id/pdf",
             [],
             'GET'
         );
