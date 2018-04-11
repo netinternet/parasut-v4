@@ -5,7 +5,7 @@ use Exception;
 
 class Client
 {
-    public $BASE_URL = 'https://api.heroku-staging.parasut.com';
+    public $BASE_URL = 'https://api.parasut.com' ;
     public $version = "v4";
     public $config;
     public $access_token;
@@ -38,7 +38,7 @@ class Client
         }
 
         if (isset($resp["access_token"])) {
-            $file = 'src/token.ini';
+            $file = './token.ini';
             $token = "";
             foreach ($resp as $key => $value) {
                 $token .= $key."=".$value."\n";

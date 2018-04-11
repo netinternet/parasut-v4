@@ -3,7 +3,7 @@ namespace Parasut;
 
 class Account extends Base
 {
-    public function create(array $data)
+    public function create($data)
     {
         return $this->client->request(
             'contacts',

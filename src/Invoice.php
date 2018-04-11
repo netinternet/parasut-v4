@@ -4,7 +4,7 @@ namespace Parasut;
 
 Class Invoice extends Base
 {
-    public function show()
+    public function list()
     {
         return $this->client->request(
           'sales_invoices/',
@@ -13,6 +13,17 @@ Class Invoice extends Base
         );
     }
 
+
+    public function show($id)
+    {
+        return $this->client->request(
+          'sales_invoices/'.$id,
+          [],
+          'GET'
+        );
+    }
+
+
     public function checkPdf($id)
     {
         $response = $this->client->request(
@@ -20,8 +31,8 @@ Class Invoice extends Base
             [],
             'GET'
         );
-        if (isset($response['included']) && isset($response['included'][0]['attributes']) && isset($response['included'][0]['attributes']['pdf_url'])) {
-            return $response['included'][0]['attributes']['pdf_url'];
+        if (isset($response['included']) && isset($response['included'][0])) {
+            return ['type' => $response['included'][0]['type'], 'id' => $response['included'][0]['id']];
         }
         return false;
     }
