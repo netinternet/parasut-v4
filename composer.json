@@ -20,6 +20,6 @@
         "php": ">=5.5.9",
         "ext-curl": "*"
     },
-    "version": "1.0.5",
+    "version": "1.0.7",
     "minimum-stability": "dev"
 }
