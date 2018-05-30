@@ -70,8 +70,8 @@ class Client
     public function request($path, $params = null, $method = 'POST', $fullPath = false)
     {
         $headers   = [];
-        $headers[] = 'Accept: application/json';
-        $headers[] = 'Authorization: Bearer ' . $this->access_token;
+        //$headers[] = 'Accept: application/json';
+        //$headers[] = 'Authorization: Bearer ' . $this->access_token;
 
         $ch = curl_init();
         if (is_array($params) && $method == "GET" && count($params) > 0) {
