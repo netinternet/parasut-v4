@@ -2,6 +2,7 @@
 
 namespace Parasut;
 use Exception;
+use Log;
 
 class Client
 {
@@ -68,6 +69,7 @@ class Client
 
     public function request($path, $params = null, $method = 'POST', $fullPath = false)
     {
+        Log::info("Requeste gelen params {$params}");
         $headers   = [];
         $headers[] = 'Accept: application/json';
         $headers[] = 'Authorization: Bearer ' . $this->access_token;
@@ -94,6 +96,8 @@ class Client
                 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
                 break;
             case 'POST':
+                Log::info("Post methodu icinde");
+                Log::info(http_build_query($params));
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
                 break;
@@ -102,6 +106,7 @@ class Client
                 break;
         }
         $jsonData = curl_exec($ch);
+        Log::info($jsonData);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $response = json_decode($jsonData, true);
         curl_close($ch);
