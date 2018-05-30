@@ -47,18 +47,15 @@ class Client
 
             $this->access_token = $resp['access_token'];
         }
-       return false; #todo: auth_code should be added!
+       return false; 
     }
 
     private function authWithPassword()
     {
-        $path = $this->BASE_URL."/oauth/token?";
-        foreach ($this->config as $key => $value) {
-            $path .= $key."=".$value."&";
-        }
+        $path = $this->BASE_URL."/oauth/token";
         return $this->request(
             $path,
-            null,
+            $this->config,
             'POST',
             true
         );
@@ -71,7 +68,9 @@ class Client
 
     public function request($path, $params = null, $method = 'POST', $fullPath = false)
     {
-        $headers = ['Content-Type: application/json', 'Authorization: Bearer '. $this->access_token];
+        $headers   = [];
+        $headers[] = 'Accept: application/json';
+        $headers[] = 'Authorization: Bearer ' . $this->access_token;
 
         $ch = curl_init();
         if (is_array($params) && $method == "GET" && count($params) > 0) {
