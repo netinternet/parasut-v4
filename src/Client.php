@@ -22,6 +22,7 @@ class Client
     public function checkTokens()
     {
         $tokens = parse_ini_file('token.ini');
+        Log::info($tokens);
         if (!isset($tokens['access_token']) || !isset($tokens['created_at'])) {
             return $this->authorize();
         }
@@ -39,7 +40,7 @@ class Client
         }
 
         if (isset($resp["access_token"])) {
-            $file = './token.ini';
+            $file = 'token.ini';
             $token = "";
             foreach ($resp as $key => $value) {
                 $token .= $key."=".$value."\n";
@@ -70,8 +71,8 @@ class Client
     public function request($path, $params = null, $method = 'POST', $fullPath = false)
     {
         $headers   = [];
-        //$headers[] = 'Accept: application/json';
-        //$headers[] = 'Authorization: Bearer ' . $this->access_token;
+        $headers[] = 'Accept: application/json';
+        $headers[] = 'Authorization: Bearer ' . $this->access_token;
 
         $ch = curl_init();
         if (is_array($params) && $method == "GET" && count($params) > 0) {
