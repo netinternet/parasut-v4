@@ -73,6 +73,7 @@ class Client
         $headers   = [];
         $headers[] = 'Accept: application/json';
         $headers[] = 'Authorization: Bearer ' . $this->access_token;
+        Log::info($this->access_token);
 
         $ch = curl_init();
         if (is_array($params) && $method == "GET" && count($params) > 0) {
