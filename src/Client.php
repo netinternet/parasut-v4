@@ -38,7 +38,7 @@ class Client
         }
 
         if (isset($resp["access_token"])) {
-            $file = './token.ini';
+            $file = 'token.ini';
             $token = "";
             foreach ($resp as $key => $value) {
                 $token .= $key."=".$value."\n";
