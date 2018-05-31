@@ -56,10 +56,10 @@ $customer = array (
             )
         ),
 );
-$client->call(Parasut\Account::class)->create(json_encode($customer));
+$client->call(Parasut\Account::class)->create($customer);
 // or
 $account = new Parasut\Account($client);
-$account->create(json_encode($customer));
+$account->create($customer);
 ```
 
 * Create Invoice
@@ -127,7 +127,7 @@ $invoice = array (
        ),
     )
 );
-$client->call(Parasut\Invoice::class)->create(json_encode($invoice));
+$client->call(Parasut\Invoice::class)->create($invoice);
 ```
 
 * Add Payment
@@ -146,7 +146,7 @@ $payArr = array(
     )
 );
 $id = xxx; // Invoice id
-$client->call(Parasut\Invoice::class)->pay($id, json_encode($payArr));
+$client->call(Parasut\Invoice::class)->pay($id, $payArr);
 ```
 
 * Create E Archive Invoice
@@ -165,7 +165,7 @@ $invArr = array (
         )
     )
 );
-$client->call(Parasut\Invoice::class)->create_e_archive(json_encode($invArr));
+$client->call(Parasut\Invoice::class)->create_e_archive($invArr);
 ```
 
 * Create Product
@@ -179,7 +179,7 @@ $productArr = array(
         )
     )
 );
-$client->call(Parasut\Product::class)->create(json_encode($productArr));
+$client->call(Parasut\Product::class)->create($productArr);
 ```
 
 
