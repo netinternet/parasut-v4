@@ -2,7 +2,6 @@
 
 namespace Parasut;
 use Exception;
-use Log;
 
 class Client
 {
