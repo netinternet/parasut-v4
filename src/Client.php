@@ -70,6 +70,7 @@ class Client
     {
         $headers   = [];
         $headers[] = 'Accept: application/json';
+        $headers[] = 'Content-Type: application/json';
         $headers[] = 'Authorization: Bearer ' . $this->access_token;
 
         $ch = curl_init();
