@@ -38,7 +38,7 @@ class Client
         }
 
         if (isset($resp["access_token"])) {
-            $file = './token.ini';
+            $file = 'token.ini';
             $token = "";
             foreach ($resp as $key => $value) {
                 $token .= $key."=".$value."\n";
@@ -70,6 +70,7 @@ class Client
     {
         $headers   = [];
         $headers[] = 'Accept: application/json';
+        $headers[] = 'Content-Type: application/json';
         $headers[] = 'Authorization: Bearer ' . $this->access_token;
 
         $ch = curl_init();
