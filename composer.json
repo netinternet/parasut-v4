@@ -25,6 +25,7 @@
     "require": {
         "php": ">=5.5.9",
         "ext-curl": "*"
+        "netinternet/parasut-v4": "^1.0.0"
     },
     "version": "1.0.13",
     "minimum-stability": "dev"
