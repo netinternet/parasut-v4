@@ -1,12 +1,12 @@
 {
-    "name": "netinternet/parasut-v4",
-    "description": "Parsaut V4 Api client",
+    "name": "gunberi/parasut-v4",
+    "description": "Parsaut V4 Api client (Fork netinternet/parasut-v4)",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Barış Esen",
-            "email": "barisesennn@gmail.com"
+            "name": "Melih Engin Akpınar",
+            "email": "enginalamut@gmail.com"
         }
     ],
     "autoload": {
