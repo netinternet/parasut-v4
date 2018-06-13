@@ -3,6 +3,12 @@
     "description": "Parsaut V4 Api client (Fork netinternet/parasut-v4)",
     "type": "library",
     "license": "MIT",
+    "repositories": [  
+        {  
+            "type": "vcs",  
+            "url": "https://github.com/gunberi/parasut-v4"  
+        }  
+    ],  
     "authors": [
         {
             "name": "Melih Engin Akpınar",
