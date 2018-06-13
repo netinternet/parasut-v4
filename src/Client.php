@@ -72,11 +72,11 @@ class Client
         $headers[] = 'Accept: application/json';
         $headers[] = 'Content-Type: application/json';
         $headers[] = 'Authorization: Bearer ' . $this->access_token;
-
         $ch = curl_init();
         if (is_array($params) && $method == "GET" && count($params) > 0) {
             $path .= '?' . http_build_query($params);
         }
+
         if ($fullPath) {
             curl_setopt($ch, CURLOPT_URL, $path);
         } else {
@@ -91,8 +91,12 @@ class Client
         curl_setopt($ch, CURLOPT_HEADER, false);
         switch ($method) {
             case 'PUT':
+                curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+                break;
+            case 'GET':
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 break;
             case 'POST':
                 curl_setopt($ch, CURLOPT_POST, 1);
@@ -105,7 +109,15 @@ class Client
         $jsonData = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $response = json_decode($jsonData, true);
+        $curlerrcode = curl_errno($ch);
+        $curlerr = curl_error($ch);
+
         curl_close($ch);
+
+        if ($curlerrcode && $curlerr) {
+            echo $curlerrcode . ': ' . $curlerr;
+            exit();
+        }
 
         switch ($httpCode) {
             case '400':
