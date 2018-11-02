@@ -14,11 +14,11 @@ Class Invoice extends Base
     }
 
 
-    public function show($id)
+    public function show($id, $params = [])
     {
         return $this->client->request(
           'sales_invoices/'.$id,
-          [],
+          $params,
           'GET'
         );
     }
