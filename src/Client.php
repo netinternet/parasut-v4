@@ -17,10 +17,10 @@ class Client
     {
         $this->config = $config;
         $this->company_id = $this->config['company_id'];
-        $this->checkTokens();
         if (function_exists('storage_path')) {
             $this->file = storage_path('token.ini');
         }
+        $this->checkTokens();
     }
 
     public function checkTokens()
@@ -28,7 +28,7 @@ class Client
         try {
             $tokens = parse_ini_file($this->file);
         } catch (\Exception $e) {
-            unlink($this->file);
+            @unlink($this->file);
         }
 
         if (! isset($tokens['access_token']) || ! isset($tokens['created_at'])) {
