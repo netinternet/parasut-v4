@@ -19,7 +19,7 @@ class Client
         $this->company_id = $this->config['company_id'];
         $this->checkTokens();
         if (function_exists('storage_path')) {
-            $this->file = storage_path('app/parasut/token.ini');
+            $this->file = storage_path('token.ini');
         }
     }
 
