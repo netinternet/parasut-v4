@@ -1,33 +1,44 @@
 <?php
 
 namespace Parasut;
+
 use Exception;
 
 class Client
 {
-    public $BASE_URL = 'https://api.parasut.com' ;
-    public $version = "v4";
+    public $BASE_URL = 'https://api.parasut.com';
+    public $version = 'v4';
     public $config;
     public $access_token;
     public $company_id;
+    public $file = 'token.ini';
 
     public function __construct($config)
     {
         $this->config = $config;
         $this->company_id = $this->config['company_id'];
         $this->checkTokens();
+        if (function_exists('storage_path')) {
+            $this->file = storage_path('app/parasut/token.ini');
+        }
     }
 
     public function checkTokens()
     {
-        $tokens = parse_ini_file('token.ini');
-        if (!isset($tokens['access_token']) || !isset($tokens['created_at'])) {
+        try {
+            $tokens = parse_ini_file($this->file);
+        } catch (\Exception $e) {
+            unlink($this->file);
+        }
+
+        if (! isset($tokens['access_token']) || ! isset($tokens['created_at'])) {
             return $this->authorize();
         }
-        if (time() - (int)$tokens['created_at'] > 7200) {
+        if (time() - (int) $tokens['created_at'] > 7200) {
             return $this->authorize();
         }
         $this->access_token = $tokens['access_token'];
+
         return $tokens;
     }
 
@@ -37,28 +48,17 @@ class Client
             $resp = $this->authWithPassword();
         }
 
-        if (isset($resp["access_token"])) {
-            $file = 'token.ini';
-            $token = "";
+        if (isset($resp['access_token'])) {
+            $token = '';
             foreach ($resp as $key => $value) {
-                $token .= $key."=".$value."\n";
+                $token .= $key.'='.$value."\n";
             }
-            file_put_contents($file, $token);
+            file_put_contents($this->file, $token);
 
             $this->access_token = $resp['access_token'];
         }
-       return false; 
-    }
 
-    private function authWithPassword()
-    {
-        $path = $this->BASE_URL."/oauth/token";
-        return $this->request(
-            $path,
-            $this->config,
-            'POST',
-            true
-        );
+        return false;
     }
 
     public function call($class)
@@ -68,19 +68,20 @@ class Client
 
     public function request($path, $params = null, $method = 'POST', $fullPath = false)
     {
-        $headers   = [];
+        $headers = [];
         $headers[] = 'Accept: application/json';
         $headers[] = 'Content-Type: application/json';
-        $headers[] = 'Authorization: Bearer ' . $this->access_token;
+        $headers[] = 'Authorization: Bearer '.$this->access_token;
 
         $ch = curl_init();
-        if (is_array($params) && $method == "GET" && count($params) > 0) {
-            $path .= '?' . http_build_query($params);
+        if (is_array($params) && $method == 'GET' && count($params) > 0) {
+            $path .= '?'.http_build_query($params);
         }
+
         if ($fullPath) {
             curl_setopt($ch, CURLOPT_URL, $path);
         } else {
-            curl_setopt($ch, CURLOPT_URL, $this->BASE_URL."/".$this->version."/".$this->company_id."/".$path);
+            curl_setopt($ch, CURLOPT_URL, $this->BASE_URL.'/'.$this->version.'/'.$this->company_id.'/'.$path);
         }
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -91,7 +92,7 @@ class Client
         curl_setopt($ch, CURLOPT_HEADER, false);
         switch ($method) {
             case 'PUT':
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
                 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
                 break;
             case 'POST':
@@ -132,5 +133,17 @@ class Client
                 return $response;
                 break;
         }
+    }
+
+    private function authWithPassword()
+    {
+        $path = $this->BASE_URL.'/oauth/token';
+
+        return $this->request(
+            $path,
+            $this->config,
+            'POST',
+            true
+        );
     }
 }
