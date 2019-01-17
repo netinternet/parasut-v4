@@ -51,7 +51,12 @@ Class Invoice extends Base
             $data
         );
     }
-
+    
+    public function delete($id)
+    {
+        return $this->client->request('sales_invoices/'.$id,[],'DELETE');
+    }
+    
     public function pay($id, $data)
     {
         $resp = $this->client->request(
