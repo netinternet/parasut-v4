@@ -3,23 +3,20 @@
     "description": "Parsaut V4 Api client",
     "type": "library",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Barış Esen",
-            "email": "barisesennn@gmail.com"
-        }
-    ],
+    "authors": [{
+        "name": "Barış Esen",
+        "email": "barisesennn@gmail.com"
+    }],
     "autoload": {
         "psr-4": {
             "Parasut\\": "src"
         },
-        "files": [
-        ]
+        "files": []
     },
     "require": {
         "php": ">=5.5.9",
         "ext-curl": "*"
     },
-    "version": "1.0.13",
+    "version": "1.0.14",
     "minimum-stability": "dev"
 }

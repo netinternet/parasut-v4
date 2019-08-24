@@ -94,7 +94,7 @@ class Client
         switch ($method) {
             case 'PUT':
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
                 break;
             case 'POST':
                 curl_setopt($ch, CURLOPT_POST, 1);
@@ -108,7 +108,7 @@ class Client
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $response = json_decode($jsonData, true);
         curl_close($ch);
-
+        
         switch ($httpCode) {
             case '400':
                 $msg = strlen($jsonData) < 3 ? $msg = 'Bad Request' : $jsonData;

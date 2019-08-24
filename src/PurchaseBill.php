@@ -1,13 +1,13 @@
 <?php
 namespace Parasut;
 
-class Product extends Base
+class PurchaseBill extends Base
 {
 
     public function create($data)
     {
         return $this->client->request(
-            'products',
+            'purchase_bills#detailed',
             $data
         );
     }
@@ -15,18 +15,26 @@ class Product extends Base
     public function show($id , $data = [])
     {
         return $this->client->request(
-            'products/' . $id,
+            'purchase_bills/' . $id,
             $data,
             'GET'
         );
     }
 
-    public function update($id , $data = [])
+    public function edit($id , $data = [])
     {
         return $this->client->request(
             'products/' . $id,
             $data,
             'PUT'
+        );
+    }
+
+    public function pay($id , $data = [])
+    {
+        return $this->client->request(
+            'products/' . $id . '/payments',
+            $data
         );
     }
 }
