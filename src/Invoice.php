@@ -4,7 +4,7 @@ namespace Parasut;
 
 Class Invoice extends Base
 {
-    public function list($params = [])
+    public function listInvoices($params = [])
     {
         return $this->client->request(
           'sales_invoices/',
