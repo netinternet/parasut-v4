@@ -17,7 +17,7 @@ class Client
     {
         $this->config = $config;
         $this->company_id = $this->config['company_id'];
-        $this->file = function_exists('storage_path') ? storage_path('token.ini') : realpath(DIR . '/token.ini');
+        $this->file = function_exists('storage_path') ? storage_path('token.ini') : realpath(__DIR__ . '/token.ini');
         $this->checkTokens();
     }
 
