@@ -29,4 +29,13 @@ class Product extends Base
             'PUT'
         );
     }
+    
+    public function delete($id , $data = [])
+    {
+        return $this->client->request(
+            'products/' . $id,
+            $data,
+            'DELETE'
+        );
+    }
 }
