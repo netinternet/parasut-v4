@@ -3,6 +3,14 @@ namespace Parasut;
 
 class Product extends Base
 {
+    public function index($pagenumber=1,$size=15)
+    {
+        return $this->client->request(
+            'products?page%5Bnumber%5D='.$pagenumber.'&page%5Bsize%5D='.$size,
+            'NULL',
+            'GET'
+        );
+    }
 
     public function create($data)
     {
