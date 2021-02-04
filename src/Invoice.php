@@ -41,7 +41,8 @@ Class Invoice extends Base
     {
         return $this->client->request(
             'sales_invoices/'.$id,
-            $data
+            $data,
+            'PUT'
         );
     }
     public function create($data)
