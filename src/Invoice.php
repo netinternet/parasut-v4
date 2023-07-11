@@ -13,6 +13,16 @@ Class Invoice extends Base
         );
     }
 
+    public function index($pagenumber=1,$size=15,$data = [])
+    {
+        $data['page[number]'] = $pagenumber;
+        $data['page[size]'] = $size;
+        return $this->client->request(
+            'sales_invoices',
+            $data,
+            'GET'
+        );
+    }
 
     public function show($id, $params = [])
     {
