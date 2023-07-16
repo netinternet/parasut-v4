@@ -5,8 +5,10 @@ class Product extends Base
 {
     public function index($pagenumber=1,$size=15,$data = [])
     {
+        $data['page[number]'] = $pagenumber;
+        $data['page[size]'] = $size;
         return $this->client->request(
-            'products?page%5Bnumber%5D='.$pagenumber.'&page%5Bsize%5D='.$size,
+            'products',
             $data,
             'GET'
         );

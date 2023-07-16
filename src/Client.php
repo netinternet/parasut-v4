@@ -66,6 +66,9 @@ class Client
 
     public function request($path, $params = null, $method = 'POST', $fullPath = false)
     {
+        if (class_exists('\Illuminate\Support\Facades\Http')) {
+            return $this->requestLaravel($path, $params, $method, $fullPath);
+        }
         $headers = [];
         $headers[] = 'Accept: application/json';
         $headers[] = 'Content-Type: application/json';
@@ -144,5 +147,57 @@ class Client
             'POST',
             true
         );
+    }
+
+    private function requestLaravel($path, $params = null, $method = 'POST', $fullPath = false)
+    {
+        $http = \Illuminate\Support\Facades\Http::withToken($this->access_token)->timeout(90)->connectTimeout(20)->withOptions(['verify' => false])->acceptJson();
+
+        if ($fullPath) {
+            $url = $path;
+        } else {
+            $url = $this->BASE_URL . '/' . $this->version . '/' . $this->company_id . '/' . $path;
+        }
+
+        switch ($method) {
+            case 'PUT':
+                $response = $http->PUT($url, $params);
+                break;
+            case 'POST':
+                $response = $http->POST($url, $params);
+                break;
+            case 'DELETE':
+                $response = $http->DELETE($url);
+                break;
+            case 'GET':
+                $response = $http->GET($url, $params);
+                break;
+        }
+        $plainResponse = $response->body();
+
+        switch ($response->status()) {
+            case '400':
+                $msg = !is_array($plainResponse) < 3 ? $msg = 'Bad Request' : $plainResponse;
+                throw new Exception($msg, 400);
+                break;
+            case '401':
+                $msg = strlen($plainResponse) < 3 ? $msg = 'Authentication Error' : $plainResponse;
+                throw new Exception($msg, 401);
+                break;
+            case '404':
+                $msg = strlen($plainResponse) < 3 ? $msg = 'Not Found Error' : $plainResponse;
+                throw new Exception($msg, 404);
+                break;
+            case '422':
+                $msg = strlen($plainResponse) < 3 ? $msg = 'Unprocessable Entity Error' : $plainResponse;
+                throw new Exception($msg, 422);
+                break;
+            case '500':
+                $msg = strlen($plainResponse) < 3 ? $msg = 'Internal Server Error' : $plainResponse;
+                throw new Exception($msg, 500);
+                break;
+            default:
+                return $response->json();
+        }
     }
 }
