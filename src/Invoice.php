@@ -80,10 +80,14 @@ Class Invoice extends Base
     public function checkType($vkn)
     {
         return $this->client->request(
-            'e_invoice_inboxes?filter[vkn]='.$vkn,
-            [],
+            'e_invoice_inboxes',
+            ['filter[vkn]' => $vkn],
             'GET'
         );
+    }
+
+    public function isEInvoiceEligible($taxNo) {
+        return count($this->checkType($taxNo)['data']) > 0;
     }
 
     public function create_e_archive($data)
